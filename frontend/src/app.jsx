@@ -24,24 +24,54 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
-    if (!topic.trim()) return;
+  if (!topic.trim()) return;
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const data = await generateHooks(topic, language);
-      console.log(data);
-      setResult(data);
-    } catch (err) {
-      console.error(err);
-      alert("Backend Error");
+  try {
+    const data = await generateHooks(topic, language);
+
+    if (data.error) {
+      alert(data.message);
+      return;
     }
 
+    setResult(data);
+
+  } catch (err) {
+    console.error(err);
+    alert("Backend Error");
+
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   const copyAll = () => {
     if (!result) return;
+
+    const text = `
+🧠 AI RESEARCH REPORT
+
+📈 Trending Angle
+${result.research?.trendingAngle}
+
+😨 Audience Pain
+${result.research?.audiencePain?.join("\n")}
+
+🎯 Competitor Strategy
+${result.research?.competitorStrategy?.join("\n")}
+
+🚀 Content Gap
+${result.research?.contentGap?.join("\n")}
+
+💰 Viral Opportunity
+${result.research?.viralOpportunity?.join("\n")}
+
+================================
+
+🔥 TITLES
+${result.titles.join("\n")}
 
     const text = `
 🔥 TITLES
@@ -66,10 +96,37 @@ ${result.firstComment}
 ${result.cta}
 
 📝 SCRIPT
-${result.script}
+${result.script
+  ?.map(
+    s => `
+${s.type}
+
+Dialogue:
+${s.dialogue}
+
+Visuals:
+${s.visuals}
+
+Key Points:
+${s.key_points}
+`
+  )
+  .join("\n")}
 
 🎬 SHOT LIST
-${result.shotList?.join("\n")}
+${result.shotList
+  ?.map(
+    s => `
+${s.time}
+
+Visual:
+${s.visual}
+
+Voice:
+${s.voiceover}
+`
+  )
+  .join("\n")}
 
 🖼 THUMBNAIL PROMPT
 ${result.thumbnailPrompt}
@@ -81,6 +138,49 @@ ${result.videoPrompt}
     navigator.clipboard.writeText(text);
     alert("✅ Complete Content Pack Copied");
   };
+  const downloadReport = () => {
+  if (!result) return;
+
+  const text = `
+SMARTWORK AI CONTENT REPORT
+
+Topic: ${topic}
+
+Titles:
+${result.titles.join("\n")}
+
+Hooks:
+${result.hooks.join("\n")}
+
+Video Idea:
+${result.videoIdea}
+
+Thumbnail:
+${result.thumbnail}
+
+Keywords:
+${result.keywords.join(", ")}
+
+First Comment:
+${result.firstComment}
+
+CTA:
+${result.cta}
+`;
+
+  const blob = new Blob([text], { type: "text/plain" });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "SmartworkAI-Report.txt";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+};
 
   return (
   <div className="min-h-screen bg-slate-950 text-white">
@@ -223,6 +323,13 @@ ${result.videoPrompt}
             >
               📋 Copy Complete Content Pack
             </button>
+
+            <button
+  onClick={downloadReport}
+  className="bg-blue-600 hover:bg-blue-700 px-5 py-3 rounded-xl font-semibold ml-3"
+>
+  📄 Download Report
+</button>
           </div>
 
           <div className="space-y-8">
