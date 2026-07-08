@@ -440,7 +440,7 @@ ${shot.voiceover}`}
     </div>
   ))}
 </div>
-</div>
+
 
 {/* Video Idea */}
 <div className="bg-slate-900 rounded-xl p-6">
