@@ -73,9 +73,6 @@ ${result.research?.viralOpportunity?.join("\n")}
 🔥 TITLES
 ${result.titles.join("\n")}
 
-    const text = `
-🔥 TITLES
-${result.titles.join("\n")}
 
 🎣 HOOKS
 ${result.hooks.join("\n")}
