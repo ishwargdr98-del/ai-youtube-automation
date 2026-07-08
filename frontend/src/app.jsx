@@ -404,9 +404,6 @@ ${part.key_points}`}
   ))}
 </div>
 
-{/* Shot List */}
-<div className="bg-slate-900 rounded-xl p-6">
-  <h2 className="text-2xl font-bold mb-4">🎬 Shot List</h2>
 
  {/* Shot List */}
 <div className="bg-slate-900 rounded-xl p-6">
