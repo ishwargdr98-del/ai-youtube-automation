@@ -1,7 +1,7 @@
 export async function generateHooks(topic, language) {
   try {
     const response = await fetch(
-      "https://smartwork-ai-backend.onrender.com/hooks/",
+      "https://ai-youtube-automation-2j3o.onrender.com",
       {
         method: "POST",
         headers: {
