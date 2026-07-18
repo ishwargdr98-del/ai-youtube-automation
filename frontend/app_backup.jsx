@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { generateHooks } from "./api/ai";
 
 function CopyButton({ text }) {
@@ -23,63 +23,22 @@ function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [progressIndex, setProgressIndex] = useState(0);
-
-
-const progressSteps = [
-  "🧠 Researching your topic...",
-  "📈 Finding viral opportunities...",
-  "🔥 Creating high CTR titles...",
-  "🎣 Writing powerful hooks...",
-  "🎬 Building your script...",
-  "🖼 Creating thumbnail ideas...",
-  "🚀 Finalizing your content pack..."
-];
-useEffect(() => {
-
-  if (!loading) return;
-
-  setProgressIndex(0);
-
-  const interval = setInterval(() => {
-
-    setProgressIndex((prev) => {
-
-      if (prev >= progressSteps.length - 1)
-        return prev;
-
-      return prev + 1;
-
-    });
-
-  }, 5000);
-
-  return () => clearInterval(interval);
-
-}, [loading]);
-  const topics = [
-  "AI Automation",
-  "Stock Market",
-  "Business",
-  "Motivation",
-  "Fitness",
-  "Cricket",
-  "History",
-  "News"
-];
-
   const handleGenerate = async () => {
   if (!topic.trim()) return;
-
   setLoading(true);
 
   try {
     const data = await generateHooks(topic, language);
 
+
+
+
+
     if (data.error) {
       alert(data.message);
       return;
     }
+
 
     setResult(data);
 
@@ -231,31 +190,21 @@ ${result.cta}
    <div className="border-b border-slate-800">
   <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
 
-    <div className="flex items-center gap-4">
-  <img
-    src="/logo.png"
-    alt="Smartwork AI Logo"
-   className="w-30 h-30 rounded-xl object-contain"
-  />
+    <div>
+      <h1 className="text-4xl font-bold">
+        🤖 Smartwork AI
+      </h1>
 
-  <div>
-    <h1 className="text-4xl font-bold">
-      Smartwork AI
-    </h1>
+      <p className="text-slate-400 mt-2">
+        Generate Viral YouTube Content in Minutes with AI
+      </p>
+    </div>
 
-    <p className="text-slate-400 mt-2">
-    Get a Complete Viral YouTube Content Pack in Under 1 Minute.
-    </p>
-  </div>
-</div>
-<button
-  onClick={() => {
-    document.getElementById("topicInput")?.focus();
-  }}
-  className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl font-semibold transition"
->
-  ⭐ Try Free
-</button>
+    <button
+      className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl font-semibold transition"
+    >
+      ⭐ Try Free
+    </button>
 
   </div>
 </div>
@@ -265,7 +214,22 @@ ${result.cta}
 
 
 
+     {loading && (
+  <div className="mt-6 bg-slate-900 border border-indigo-500 rounded-xl p-5 text-center animate-pulse">
+    <h3 className="text-xl font-bold text-indigo-400">
+      🤖 AI is generating your content...
+    </h3>
 
+    <p className="text-slate-300 mt-2">
+      Please wait while Smartwork AI prepares your research,
+      titles, hooks, scripts and SEO.
+    </p>
+
+    <p className="text-slate-500 text-sm mt-3">
+      ⏳ Usually takes 20–30 seconds.
+    </p>
+  </div>
+)}
       {/* AI Powered Badge */}
 <div className="mt-10 text-center">
   <span className="inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
@@ -273,48 +237,105 @@ ${result.cta}
   </span>
 
   <h2 className="text-4xl font-bold text-white mt-5">
- Create a Complete Viral YouTube Content Pack in Under 1 Minute
+    Create Viral YouTube Content in Minutes
   </h2>
 
   <p className="text-slate-400 mt-4 max-w-3xl mx-auto">
-    Get research, viral titles, hooks, full scripts, thumbnail ideas and SEO — ready to publish.
+    Stop spending hours planning YouTube videos.
+    Generate Research, Viral Titles, Hooks, Scripts,
+    Shot Lists, Thumbnail Prompts and SEO in one click.
   </p>
 </div>
-{loading && (
-  <div className="mt-6 bg-slate-900 border border-indigo-500 rounded-xl p-6 text-center min-h-[240px]">
 
-    {/* Spinner */}
-    <div className="flex justify-center mb-5">
-      <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>
+{/* Features */}
+<div className="grid md:grid-cols-4 gap-5 mt-12">
 
-    {/* Progress Message */}
-    <h3 className="text-2xl font-bold text-indigo-400">
-      {progressSteps[progressIndex]}
-    </h3>
-
-    <p className="text-slate-300 mt-3">
-      Please wait while Smartwork AI prepares your research,
-      titles, hooks, scripts and SEO.
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🧠</div>
+    <h3 className="font-bold text-lg">AI Research</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      Trending angles, audience pain and competitor research.
     </p>
-
-    {/* Progress Bar */}
-    <div className="mt-6 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-      <div
-        className="transition-all duration-[5000ms] ease-linear"
-        style={{
-          width: `${((progressIndex + 1) / progressSteps.length) * 100}%`,
-        }}
-      ></div>
-    </div>
-
-    <p className="text-slate-500 text-sm mt-4">
-      ⏳ Deep research takes a little longer, but produces higher-quality content.
-    </p>
-
   </div>
-)}
 
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🔥</div>
+    <h3 className="font-bold text-lg">Viral Titles</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      AI generates high CTR YouTube titles.
+    </p>
+  </div>
+
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🎣</div>
+    <h3 className="font-bold text-lg">Hooks & Script</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      Powerful hooks and complete AI scripts.
+    </p>
+  </div>
+
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🎬</div>
+    <h3 className="font-bold text-lg">Shot List</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      Scene-by-scene video production plan.
+    </p>
+  </div>
+
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🖼</div>
+    <h3 className="font-bold text-lg">Thumbnail Prompt</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      AI thumbnail ideas with prompts.
+    </p>
+  </div>
+
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🎥</div>
+    <h3 className="font-bold text-lg">Video Prompt</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      Ready prompts for AI video generators.
+    </p>
+  </div>
+
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🏷</div>
+    <h3 className="font-bold text-lg">SEO Keywords</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      Optimized keywords to improve discoverability.
+    </p>
+  </div>
+
+  <div className="bg-slate-900 rounded-xl p-6 text-center">
+    <div className="text-4xl mb-3">🚀</div>
+    <h3 className="font-bold text-lg">One Click</h3>
+    <p className="text-slate-400 text-sm mt-2">
+      Everything generated in a single click.
+    </p>
+  </div>
+
+</div>
+
+<div className="flex flex-wrap justify-center gap-3 mt-8">
+
+  <span className="bg-slate-800 px-4 py-2 rounded-full">
+    ✅ AI Research
+  </span>
+
+  <span className="bg-slate-800 px-4 py-2 rounded-full">
+    ✅ Script
+  </span>
+
+  <span className="bg-slate-800 px-4 py-2 rounded-full">
+    ✅ Thumbnail
+  </span>
+  <span className="bg-slate-800 px-4 py-2 rounded-full">
+    ✅ SEO
+  </span>
+
+</div>
+
+<div className="bg-slate-900 rounded-2xl p-8 mt-10 max-w-5xl mx-auto">
 
  {/* Language */}
       <div className="mb-4">
@@ -336,24 +357,22 @@ ${result.cta}
       <div className="flex gap-4">
 
         <input
-         id="topicInput"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          placeholder="Enter any topic... (e.g. AI Automation, IPL, Stock Market, Motivation)"
+          placeholder="e.g. AI Automation, Tesla, Cricket, Motivation..."
           className="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-4 outline-none"
         />
 
-<button
+      <button
   onClick={handleGenerate}
   disabled={loading}
-  className={`px-8 rounded-xl font-semibold transition
-    ${
-      loading
-        ? "bg-slate-700 cursor-not-allowed"
-        : "bg-indigo-600 hover:bg-indigo-700"
-    }`}
+  className={`px-8 rounded-xl font-semibold transition ${
+    loading
+      ? "bg-gray-600 cursor-not-allowed"
+      : "bg-indigo-600 hover:bg-indigo-700"
+  }`}
 >
-  {loading ? "⏳ Generating..." : "🚀 Generate Now"}
+  {loading ? "⏳ Generating..." : "🚀 Generate Content"}
 </button>
 
 
@@ -361,240 +380,13 @@ ${result.cta}
 
 
 
-
       </div>
-      <div className="flex justify-center gap-6 mt-5 text-sm text-slate-400 flex-wrap">
 
-  <span>✅ No Login Required</span>
-
-  <span>🧠 Deep AI Research</span>
-
-  <span>🤖 AI Powered</span>
-
-</div>
-{/* Example Output */}
-
-<div className="mt-14 bg-slate-900 border border-slate-800 rounded-2xl p-8">
-
-  <div className="text-center mb-8">
-
-    <span className="bg-indigo-600 px-4 py-2 rounded-full text-sm font-semibold">
-      🔥 Example Output
-    </span>
-
-    <h2 className="text-4xl font-bold mt-5">
-      What You'll Get
-    </h2>
-
-    <p className="text-slate-400 mt-3">
-      Complete AI-generated content pack from a single topic.
-    </p>
-
-  </div>
-
-  <div className="grid md:grid-cols-2 gap-6">
-
-    <div className="bg-slate-800 rounded-xl p-5">
-      <h3 className="text-green-400 font-bold mb-3">
-        📌 Topic
-      </h3>
-
-      <p>
-
-Ashoka History</p>
-    </div>
-
-    <div className="bg-slate-800 rounded-xl p-5">
-      <h3 className="text-yellow-400 font-bold mb-3">
-        🔥 Viral Title
-      </h3>
-
-      <p>
-        The Secret History Nobody Tells You About Ashoka
-      </p>
-    </div>
-
-    <div className="bg-slate-800 rounded-xl p-5">
-      <h3 className="text-pink-400 font-bold mb-3">
-        🎣 Hook
-      </h3>
-
-      <p>
-        What if everything you learned about Ashoka was incomplete?
-      </p>
-    </div>
-
-    <div className="bg-slate-800 rounded-xl p-5">
-      <h3 className="text-blue-400 font-bold mb-3">
-        📝 Script
-      </h3>
-
-      <p>
-        Complete YouTube script ready to record.
-      </p>
-    </div>
-
-    <div className="bg-slate-800 rounded-xl p-5">
-      <h3 className="text-orange-400 font-bold mb-3">
-        🖼 Thumbnail
-      </h3>
-
-      <p>
-        THE DARK SECRET OF ASHOKA
-      </p>
-    </div>
-
-    <div className="bg-slate-800 rounded-xl p-5">
-      <h3 className="text-cyan-400 font-bold mb-3">
-        📈 SEO Keywords
-      </h3>
-
-      <p>
-        Ashoka History, Maurya Empire, Indian History
-      </p>
-    </div>
-
-  </div>
-
-</div>
-      <h3 className="mt-6 mb-3 text-lg font-semibold text-white">
-  🔥 Trending Topics
-</h3>
-
-      <div className="flex flex-wrap gap-3 mt-5">
-
-  {topics.map((item) => (
-
-    <button
-      key={item}
-      onClick={() => setTopic(item)}
-   className="
-bg-slate-800
-hover:bg-indigo-600
-hover:scale-105
-hover:shadow-lg
-hover:shadow-indigo-500/30
-transition-all
-duration-200
-px-5
-py-2
-rounded-full
-text-sm
-font-medium
-"
-    >
-      {item}
-    </button>
-
-  ))}
-
-</div>
-
-{/*  <p className="text-center text-slate-400 mt-4"> */}
-{/* ⚡ Average generation time: 20 sec • No signup required */}
-{/* </p> */}
+ <p className="text-center text-slate-400 mt-4">
+  ⚡ Average generation time: 20–30 seconds
+</p>
 
 </div> {/* Close Generator Card */}
-
-{/* Why Creators Choose Smartwork AI */}
-
-<div className="mt-16 mb-10 text-center">
-  <h2 className="text-4xl font-bold">
-    Why Creators Choose Smartwork AI
-  </h2>
-
-  <p className="text-slate-400 mt-3 max-w-2xl mx-auto">
-    Everything you need to go from a simple idea to a publish-ready
-    YouTube content pack in under one minute.
-  </p>
-</div>
-
-<div className="grid md:grid-cols-4 gap-5">
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">🧠</div>
-    <h3 className="font-bold text-lg">Deep AI Research</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Discover audience pain points, competitors and viral opportunities before creating content.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">⚡</div>
-    <h3 className="font-bold text-lg">Save Hours</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Replace hours of research with a complete AI-generated content pack in under one minute.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">🎯</div>
-    <h3 className="font-bold text-lg">Higher Viral Potential</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Titles, hooks and scripts optimized to improve click-through rate and audience retention.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">📦</div>
-    <h3 className="font-bold text-lg">Ready To Publish</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Research, scripts, thumbnail ideas, SEO and publishing assets generated together.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">🌍</div>
-    <h3 className="font-bold text-lg">Multi Language</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Generate high-quality content naturally in English, Hindi and more.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">🚀</div>
-    <h3 className="font-bold text-lg">One-Click Workflow</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Enter one topic and instantly receive your complete YouTube content pack.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">🔒</div>
-    <h3 className="font-bold text-lg">No Login Required</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      Start generating immediately without creating an account.
-    </p>
-  </div>
-
-  <div className="bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 transition">
-    <div className="text-4xl mb-3">💎</div>
-    <h3 className="font-bold text-lg">Professional Quality</h3>
-    <p className="text-slate-400 text-sm mt-2">
-      AI-generated content ready to record, edit and publish.
-    </p>
-  </div>
-
-</div>
-
-<div className="flex flex-wrap justify-center gap-3 mt-8">
-
-<span className="bg-slate-800 border border-slate-700 px-4 py-2 rounded-full">
-⚡ Under 1 Minute
-</span>
-
-<span className="bg-slate-800 border border-slate-700 px-4 py-2 rounded-full">
-🌍 Multi Language
-</span>
-
-<span className="bg-slate-800 border border-slate-700 px-4 py-2 rounded-full">
-🚀 Ready to Publish
-</span>
-
-</div>
-
-<div className="bg-slate-900 rounded-2xl p-8 mt-10 max-w-5xl mx-auto">
-
 
 {result && (
 
@@ -894,40 +686,37 @@ ${shot.voiceover}`}
 
 )}
 {/* Footer */}
-<footer className="mt-6 border-t border-slate-800 py-6 text-center">
+<footer className="mt-20 border-t border-slate-800 py-8 text-center">
 
-  <h3 className="text-xl font-bold text-white">
-    🚀 Smartwork AI
+  <h3 className="text-white font-bold text-xl">
+    Smartwork AI
   </h3>
 
-  <p className="text-slate-400 text-sm mt-1">
-    AI YouTube Content Automation Platform
+  <p className="text-slate-400 mt-2">
+    Your AI YouTube Automation Employee
   </p>
 
-  <div className="flex justify-center items-center gap-5 mt-4 text-sm">
+  <div className="flex justify-center gap-6 mt-5">
 
     <a
       href="https://github.com/ishwargdr98-del"
       target="_blank"
-      rel="noopener noreferrer"
-      className="text-indigo-400 hover:text-indigo-300 transition"
+      className="text-indigo-400 hover:text-indigo-300"
     >
       GitHub
     </a>
 
-    <span className="text-slate-600">•</span>
-
     <a
-      href="mailto:ishwargdr98@email.com"
-      className="text-indigo-400 hover:text-indigo-300 transition"
+      href="ishwargdr98@email.com"
+      className="text-indigo-400 hover:text-indigo-300"
     >
       Contact
     </a>
 
   </div>
 
-  <p className="text-slate-500 text-xs mt-4">
-    © 2026 Smartwork AI • All rights reserved.
+  <p className="text-slate-500 text-sm mt-5">
+    © 2026 Smartwork AI. All rights reserved.
   </p>
 
 </footer>
