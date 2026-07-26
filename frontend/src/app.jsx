@@ -22,37 +22,46 @@ function App() {
   const [language, setLanguage] = useState("English");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  const [progressIndex, setProgressIndex] = useState(0);
 
 
-const progressSteps = [
+
+const loadingMessages = [
   "🧠 Researching your topic...",
-  "📈 Finding viral opportunities...",
-  "🔥 Creating high CTR titles...",
-  "🎣 Writing powerful hooks...",
-  "🎬 Building your script...",
-  "🖼 Creating thumbnail ideas...",
-  "🚀 Finalizing your content pack..."
-];
-useEffect(() => {
+  "📊 Analyzing competitors...",
+  "🎯 Finding audience pain...",
+  "🔥 Creating viral titles...",
+  "🎣 Writing irresistible hooks...",
+  "✍️ Writing complete script...",
+  "🖼 Designing thumbnail ideas...",
+  "🚀 Optimizing SEO keywords...",
+  "✅ Finalizing your content pack..."
 
+];
+const [loadingText, setLoadingText] = useState(loadingMessages[0]);
+
+useEffect(() => {
   if (!loading) return;
 
-  setProgressIndex(0);
+  let index = 0;
+
+  setProgress(0);
+  setLoadingText(loadingMessages[0]);
 
   const interval = setInterval(() => {
 
-    setProgressIndex((prev) => {
+    index++;
 
-      if (prev >= progressSteps.length - 1)
-        return prev;
+    if (index >= loadingMessages.length) {
+      index = loadingMessages.length - 1;
+    }
 
-      return prev + 1;
+    setLoadingText(loadingMessages[index]);
 
-    });
+    setProgress(((index + 1) / loadingMessages.length) * 100);
 
-  }, 5000);
+  }, 3000);
 
   return () => clearInterval(interval);
 
@@ -82,6 +91,15 @@ useEffect(() => {
     }
 
     setResult(data);
+setLoading(false);
+  setTimeout(() => {
+  document
+    .getElementById("result-section")
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+}, 250);
 
   } catch (err) {
     console.error(err);
@@ -280,43 +298,8 @@ ${result.cta}
     Get research, viral titles, hooks, full scripts, thumbnail ideas and SEO — ready to publish.
   </p>
 </div>
-{loading && (
-  <div className="mt-6 bg-slate-900 border border-indigo-500 rounded-xl p-6 text-center min-h-[240px]">
 
-    {/* Spinner */}
-    <div className="flex justify-center mb-5">
-      <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-
-    {/* Progress Message */}
-    <h3 className="text-2xl font-bold text-indigo-400">
-      {progressSteps[progressIndex]}
-    </h3>
-
-    <p className="text-slate-300 mt-3">
-      Please wait while Smartwork AI prepares your research,
-      titles, hooks, scripts and SEO.
-    </p>
-
-    {/* Progress Bar */}
-    <div className="mt-6 w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-      <div
-        className="transition-all duration-[5000ms] ease-linear"
-        style={{
-          width: `${((progressIndex + 1) / progressSteps.length) * 100}%`,
-        }}
-      ></div>
-    </div>
-
-    <p className="text-slate-500 text-sm mt-4">
-      ⏳ Deep research takes a little longer, but produces higher-quality content.
-    </p>
-
-  </div>
-)}
-
-
- {/* Language */}
+{/* Language */}
       <div className="mb-4">
         <label className="block mb-2 font-semibold">
           Language
@@ -353,7 +336,14 @@ ${result.cta}
         : "bg-indigo-600 hover:bg-indigo-700"
     }`}
 >
-  {loading ? "⏳ Generating..." : "🚀 Generate Now"}
+{loading ? (
+  <div className="flex items-center justify-center gap-2">
+    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+    <span>Generating</span>
+  </div>
+) : (
+  "🚀 Generate Now"
+)}
 </button>
 
 
@@ -363,7 +353,72 @@ ${result.cta}
 
 
       </div>
-      <div className="flex justify-center gap-6 mt-5 text-sm text-slate-400 flex-wrap">
+            <h3 className="mt-6 mb-3 text-lg font-semibold text-white">
+  🔥 Trending Topics
+</h3>
+
+      <div className="flex flex-wrap gap-3 mt-5">
+
+  {topics.map((item) => (
+
+    <button
+      key={item}
+      onClick={() => setTopic(item)}
+   className="
+bg-slate-800
+hover:bg-indigo-600
+hover:scale-105
+hover:shadow-lg
+hover:shadow-indigo-500/30
+transition-all
+duration-200
+px-5
+py-2
+rounded-full
+text-sm
+font-medium
+"
+    >
+      {item}
+    </button>
+
+  ))}
+
+</div>
+
+{loading && (
+<div className="mt-10">
+
+
+    {/* Spinner */}
+    <div className="flex flex-col items-center justify-center text-center">
+      <div className="w-14 h-14 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    {/* Dynamic Loading Text */}
+    <h2 className="text-3xl font-bold text-indigo-400">
+      {loadingText}
+    </h2>
+
+    <p className="text-slate-400 mt-3">
+      Preparing your complete AI content pack...
+    </p>
+
+    {/* Animated Progress */}
+    <div className="mt-8 h-2 bg-slate-800 rounded-full overflow-hidden">
+    <div
+  className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-700"
+  style={{ width: `${progress}%` }}
+></div>
+    </div>
+
+    <p className="text-sm text-slate-500 mt-4">
+      ⚡ Usually takes 20–40 seconds depending on research complexity.
+    </p>
+
+  </div>
+)}
+      <div className="flex justify-center gap-6 mt-8 text-sm text-slate-400 flex-wrap">
 
   <span>✅ No Login Required</span>
 
@@ -382,7 +437,8 @@ ${result.cta}
       🔥 Example Output
     </span>
 
-    <h2 className="text-4xl font-bold mt-5">
+    <h2 className="text-4xl f
+    ont-bold mt-5">
       What You'll Get
     </h2>
 
@@ -457,38 +513,7 @@ Ashoka History</p>
   </div>
 
 </div>
-      <h3 className="mt-6 mb-3 text-lg font-semibold text-white">
-  🔥 Trending Topics
-</h3>
 
-      <div className="flex flex-wrap gap-3 mt-5">
-
-  {topics.map((item) => (
-
-    <button
-      key={item}
-      onClick={() => setTopic(item)}
-   className="
-bg-slate-800
-hover:bg-indigo-600
-hover:scale-105
-hover:shadow-lg
-hover:shadow-indigo-500/30
-transition-all
-duration-200
-px-5
-py-2
-rounded-full
-text-sm
-font-medium
-"
-    >
-      {item}
-    </button>
-
-  ))}
-
-</div>
 
 {/*  <p className="text-center text-slate-400 mt-4"> */}
 {/* ⚡ Average generation time: 20 sec • No signup required */}
@@ -597,15 +622,16 @@ font-medium
 
 
 {result && (
+ <>
 
-
-
-
-
-
-        <>
-           <div className="bg-slate-900 rounded-xl p-6 mb-8">
-
+<div
+  id="result-section"
+  className={`bg-slate-900 rounded-xl p-6 mb-8 transition-all duration-700 ${
+    result
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-6"
+  }`}
+>
   <h2 className="text-2xl font-bold mb-6">
     🧠 AI Research Report
   </h2>
@@ -939,3 +965,4 @@ ${shot.voiceover}`}
 }
 
 export default App;
+
