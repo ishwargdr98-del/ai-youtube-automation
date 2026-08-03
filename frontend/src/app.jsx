@@ -316,36 +316,44 @@ ${result.cta}
       </div>
 
       {/* Search */}
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 w-full">
 
         <input
          id="topicInput"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           placeholder="Enter any topic... (e.g. AI Automation, IPL, Stock Market, Motivation)"
-          className="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-4 outline-none"
+          className="w-full flex-1 bg-slate-900 border border-slate-700 rounded-xl p-4 outline-none"
         />
 
 <button
   onClick={handleGenerate}
   disabled={loading}
-  className={`px-8 rounded-xl font-semibold transition
+  className={`
+    w-full
+    sm:w-auto
+    sm:min-w-[180px]
+    px-6
+    py-4
+    rounded-xl
+    font-semibold
+    transition
     ${
       loading
         ? "bg-slate-700 cursor-not-allowed"
         : "bg-indigo-600 hover:bg-indigo-700"
-    }`}
+    }
+  `}
 >
-{loading ? (
-  <div className="flex items-center justify-center gap-2">
-    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-    <span>Generating</span>
-  </div>
-) : (
-  "🚀 Generate Now"
-)}
+  {loading ? (
+    <div className="flex items-center justify-center gap-2">
+      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+      <span>Generating</span>
+    </div>
+  ) : (
+    "🚀 Generate Now"
+  )}
 </button>
-
 
 
 
