@@ -24,6 +24,12 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [creatorType, setCreatorType] = useState("");
+  const [useful, setUseful] = useState("");
+  const [feedbackText, setFeedbackText] = useState("");
+
+
 
 
 
@@ -965,7 +971,23 @@ ${shot.voiceover}`}
     <CopyButton text={result.cta} />
   </div>
 </div>
-
+{/* Feedback Button */}
+<div className="mt-8 text-center">
+  <button
+    onClick={() => setShowFeedback(true)}
+    className="
+      bg-indigo-600
+      hover:bg-indigo-700
+      px-6
+      py-3
+      rounded-xl
+      font-semibold
+      transition
+    "
+  >
+    💬 Give Feedback
+  </button>
+</div>
 </div>
 
 </>
