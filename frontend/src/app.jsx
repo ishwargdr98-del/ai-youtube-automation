@@ -245,35 +245,79 @@ ${result.cta}
   return (
   <div className="min-h-screen bg-slate-950 text-white">
 
-    {/* Header */}
-   <div className="border-b border-slate-800">
-  <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+   {/* Header */}
+<div className="border-b border-slate-800">
+  <div className="
+    max-w-6xl mx-auto
+    px-4 sm:px-6
+    py-3 sm:py-5
+    flex items-center justify-between
+    gap-3
+  ">
 
-    <div className="flex items-center gap-4">
-  <img
-    src="/logo.png"
-    alt="Smartwork AI Logo"
-   className="w-30 h-30 rounded-xl object-contain"
-  />
+    {/* Logo + Brand */}
+    <div className="flex items-center gap-3 sm:gap-4 min-w-0">
 
-  <div>
-    <h1 className="text-4xl font-bold">
-      Smartwork AI
-    </h1>
+      <img
+        src="/logo.png"
+        alt="Smartwork AI Logo"
+        className="
+          w-14 h-14
+          sm:w-24 sm:h-24
+          rounded-xl
+          object-contain
+          flex-shrink-0
+        "
+      />
 
-    <p className="text-slate-400 mt-2">
-    Get a Complete Viral YouTube Content Pack in Under 1 Minute.
-    </p>
-  </div>
-</div>
-<button
-  onClick={() => {
-    document.getElementById("topicInput")?.focus();
-  }}
-  className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl font-semibold transition"
->
-  ⭐ Try Free
-</button>
+      <div className="min-w-0">
+        <h1 className="
+          text-xl
+          sm:text-4xl
+          font-bold
+          whitespace-nowrap
+        ">
+          Smartwork AI
+        </h1>
+
+        <p className="
+          hidden
+          sm:block
+          text-slate-400
+          mt-2
+        ">
+          Get a Complete Viral YouTube Content Pack in Under 1 Minute.
+        </p>
+
+        {/* Mobile subtitle */}
+        <p className="sm:hidden text-xs text-slate-400 mt-1">
+          AI YouTube Content Tool
+        </p>
+      </div>
+
+    </div>
+
+    {/* Try Free */}
+    <button
+      onClick={() => {
+        document.getElementById("topicInput")?.focus();
+      }}
+      className="
+        flex-shrink-0
+        bg-indigo-600
+        hover:bg-indigo-700
+        px-3 py-2
+        sm:px-6 sm:py-3
+        rounded-xl
+        text-sm sm:text-base
+        font-semibold
+        transition
+        whitespace-nowrap
+      "
+    >
+      ⭐ <span className="hidden sm:inline">Try Free</span>
+      <span className="sm:hidden">Try</span>
+    </button>
 
   </div>
 </div>
