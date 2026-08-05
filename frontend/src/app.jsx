@@ -25,10 +25,8 @@ function App() {
   const [progress, setProgress] = useState(0);
 
   const [showFeedback, setShowFeedback] = useState(false);
-  const [creatorType, setCreatorType] = useState("");
-  const [useful, setUseful] = useState("");
-  const [feedbackText, setFeedbackText] = useState("");
-
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
 
 
 
@@ -113,6 +111,43 @@ setLoading(false);
 
   } finally {
     setLoading(false);
+  }
+};
+const submitFeedback = async () => {
+  try {
+    const response = await fetch(
+      "https://ai-youtube-automation-2j3o.onrender.com/feedback/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rating: rating,
+          feedback: feedback,
+          topic: topic,
+          language: language,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Feedback submission failed");
+    }
+
+    const data = await response.json();
+
+    console.log("Feedback response:", data);
+
+    alert("✅ Thank you! Your feedback has been submitted.");
+
+    setShowFeedback(false);
+    setRating(0);
+    setFeedback("");
+
+  } catch (error) {
+    console.error("Feedback error:", error);
+    alert("❌ Could not submit feedback. Please try again.");
   }
 };
 
@@ -992,6 +1027,62 @@ ${shot.voiceover}`}
 
 </>
 
+)}
+{/* Feedback Modal */}
+{showFeedback && (
+  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+
+    <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-md">
+
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold text-white">
+          💬 Your Feedback
+        </h2>
+
+        <button
+          onClick={() => setShowFeedback(false)}
+          className="text-slate-400 hover:text-white text-2xl"
+        >
+          ×
+        </button>
+      </div>
+
+      <p className="text-slate-400 mb-4">
+        How useful was this content?
+      </p>
+
+      {/* Star Rating */}
+      <div className="flex gap-2 mb-5">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            onClick={() => setRating(star)}
+            className="text-3xl transition hover:scale-110"
+          >
+            {star <= rating ? "⭐" : "☆"}
+          </button>
+        ))}
+      </div>
+
+      {/* Feedback Text */}
+      <textarea
+        value={feedback}
+        onChange={(e) => setFeedback(e.target.value)}
+        placeholder="Tell us what we can improve..."
+        rows="4"
+        className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white outline-none focus:border-indigo-500"
+      />
+
+      <button
+        onClick={submitFeedback}
+        className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-xl font-semibold transition"
+      >
+        🚀 Submit Feedback
+      </button>
+
+    </div>
+
+  </div>
 )}
 {/* Footer */}
 <footer className="mt-6 border-t border-slate-800 py-6 text-center">

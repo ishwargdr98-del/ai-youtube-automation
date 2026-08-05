@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.hook import router as hook_router
-
+from app.api.feedback import router as feedback_router
 app = FastAPI(
     title="Shorts Hook Engine",
     version="1.0.0"
@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(hook_router)
-
+app.include_router(feedback_router)
 
 @app.get("/")
 def home():
