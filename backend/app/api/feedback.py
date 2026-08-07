@@ -1,12 +1,28 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from datetime import datetime
-import csv
+from supabase import create_client
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 router = APIRouter(
     prefix="/feedback",
     tags=["Feedback"]
+)
+
+# Supabase credentials from .env
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+
+print("SUPABASE URL:", repr(SUPABASE_URL))
+
+if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
+    raise RuntimeError("Supabase environment variables are missing")
+
+supabase = create_client(
+    SUPABASE_URL,
+    SUPABASE_SERVICE_KEY
 )
 
 
@@ -19,34 +35,32 @@ class FeedbackRequest(BaseModel):
 
 @router.post("/")
 def save_feedback(data: FeedbackRequest):
+    try:
 
-    file_name = "feedback.csv"
+        feedback_data = {
+            "rating": data.rating,
+            "feedback": data.feedback,
+            "topic": data.topic,
+            "language": data.language
+        }
 
-    file_exists = os.path.isfile(file_name)
+        response = (
+            supabase
+            .table("feedback")
+            .insert(feedback_data)
+            .execute()
+        )
 
-    with open(file_name, "a", newline="", encoding="utf-8") as file:
+        return {
+            "success": True,
+            "message": "Feedback saved successfully",
+            "data": response.data
+        }
 
-        writer = csv.writer(file)
+    except Exception as e:
+        print("Supabase feedback error:", e)
 
-        # Header only first time
-        if not file_exists:
-            writer.writerow([
-                "timestamp",
-                "rating",
-                "feedback",
-                "topic",
-                "language"
-            ])
-
-        writer.writerow([
-            datetime.now().isoformat(),
-            data.rating,
-            data.feedback,
-            data.topic,
-            data.language
-        ])
-
-    return {
-        "success": True,
-        "message": "Feedback saved successfully"
-    }
+        raise HTTPException(
+            status_code=500,
+            detail="Could not save feedback"
+        )
